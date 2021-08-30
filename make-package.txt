@@ -1,0 +1,5 @@
+check the electron version
+$ node_modules/.bin/electron --version
+
+create a package
+node_modules/.bin/electron-packager ./ --platform=darwin --arch=x64 --electron-version=13.2.3 

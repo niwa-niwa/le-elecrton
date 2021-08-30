@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Settings</title>
+    <style>
+      body {
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        padding: 10px;
+        background: #eee;
+      }
+      h1 {
+        font-size: 16px;
+        margin: 0;
+        padding: 0 0 10px 0;
+      }
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      ul > li {
+        font-size: 14px;
+        padding: 3px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Background Color</h1>
+    <ul>
+      <li>
+        <label for=""
+          ><input
+            type="radio"
+            name="colors"
+            id=""
+            value="skyblue"
+          />Skyblue</label
+        >
+      </li>
+      <li>
+        <label for=""
+          ><input
+            type="radio"
+            name="colors"
+            id=""
+            value="tomato"
+          />Tomato</label
+        >
+      </li>
+      <li>
+        <label for=""
+          ><input type="radio" name="colors" id="" value="slategray" />Slate
+          Gray</label
+        >
+      </li>
+    </ul>
+
+    <script>
+      const ipcRenderer = require("electron").ipcRenderer;
+      let currentColor = ipcRenderer.sendSync("get_bgcolor");
+
+      let colors = document.getElementsByName("colors");
+      for (let i = 0; i < colors.length; i++) {
+        if (currentColor === colors[i].value) {
+          colors[i].checked = true;
+        }
+
+        colors[i].addEventListener("change", function () {
+          let color = this.value;
+          ipcRenderer.send("settings_changed", color);
+        });
+      }
+    </script>
+  </body>
+</html>
